@@ -1,6 +1,6 @@
 /******************
-Name:
-ID:
+Name: Ariel Mizrahi
+ID: 213458821
 Assignment: ex3
 *******************/
 
@@ -95,7 +95,7 @@ int main() {
                     isDayValid = 0;
                 }
                 while (!isDayValid) {
-                    printf("Please enter a valid day.\nWhich day would you like to analyze?\n");
+                    printf("Please enter a valid day.\nWhat day would you like to analyze?\n");
                     scanf("%d", &checkDay);
                     checkDay--;
                     if (checkDay <= dayCounter-1 && checkDay != -1) {
@@ -134,7 +134,7 @@ int main() {
                 getBestSoldBrandOverall(cube,dayCounter,&bestBrand,&totalBrandSum);
                 printf("The best-selling brand overall is %s: %d$ \n",brands[bestBrand],totalBrandSum);
                 getBestSoldTypeOverall(cube,dayCounter,&bestType,&totalTypeSum);
-                printf("The best-selling type of car overall is %s: %d$ \n",types[bestType],totalTypeSum);
+                printf("The best-selling type of car is %s: %d$ \n",types[bestType],totalTypeSum);
                 getBestSoldDayOverall(cube,dayCounter,&bestDay,&totalDaySum);
                 printf("The most profitable day was day number %d: %d$ \n",bestDay+1,totalDaySum);
                 break;
