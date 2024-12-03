@@ -207,7 +207,10 @@ int main() {
         return 0;
 
 }
+//addData is used to add data to the next available day (the day argument) of the brand the user chooses
 int addData(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day){
+    /*All of those variables will hold the user inputs and if the user entered a valid car brand
+     those values will go into the cube in the next available day to the car brand the user has chosen*/
     int carBrand;
     int SUVSales;
     int SedanSales;
@@ -220,10 +223,12 @@ int addData(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day){
         cube[day][carBrand][1] = SedanSales;
         cube[day][carBrand][2] = CoupeSales;
         cube[day][carBrand][3] = GTSales;
+        //I want to return the car brand that got values, so I can use it in the main
         return carBrand;
     }
     else {
         printf("This brand is not valid\n");
+        //If the car brand wasn't valid the function return -1
         return -1;
     }
 }
@@ -237,15 +242,25 @@ void printMenu(){
            "6.Provide Average Delta Metrics\n"
            "7.exit\n");
 }
+//getTotalSalesSum gets the arguments cube, day so it will know in which day to check, and a pointer to salesSum so I can use the sales sum of that day in main
 void getTotalSalesSum(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int *salesSum) {
+    //There are 2 running nested for loops, to run over all the types of each car brands of the chosen day and to sum their sales
     for (int i = 0; i < NUM_OF_BRANDS; i++) {
         for (int j = 0; j < NUM_OF_TYPES; j++) {
             *salesSum += cube[day][i][j];
         }
     }
 }
+/*getBestSoldBrand gets the arguments cube, day so it will know in which day to check,
+ a pointer to bestBrand, so I can use the index of the highest grossing brand of that day in main,
+ and brandSum so, I can use the sum of all the highest grossing brand sales in main*/
 void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day,int *bestBrand, int *brandSum) {
+    //currentMax will help find the highest sum of sales from all the brands, initialized at 0
     int currentMax = 0;
+    /*In this 2 for loops we are checking for each brand what there sum of sales were for that day and give the value to currentMax,
+     if I find that the currentMax is bigger then the brandSum which is first initialized to 0 in the main, I give brandSum the value that currentMax holds, and bestBrand
+     the index of the brand that his sales were bigger then the previous brandSum and reset currentMax value to 0 for the next brand,
+     if the currentMax isn't bigger than brandSum I reset him and check for the next brand without changing brandSum*/
     for (int i = 0; i < NUM_OF_BRANDS; i++) {
         for (int j = 0; j < NUM_OF_TYPES; j++) {
             currentMax += cube[day][i][j];
@@ -260,8 +275,16 @@ void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int da
         }
     }
 }
+/*getBestSoldType gets the arguments cube, day so it will know in which day to check,
+ a pointer to bestType, so I can use the index of the highest grossing type of that day in main,
+ and typeSum so, I can use the sum of all the highest grossing type sales in main*/
 void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int *bestType, int *typeSum){
+    //currentMax will help find the highest sum of sales from all the types, initialized at 0
     int currentMax = 0;
+    /*In this 2 for loops we are checking for each type what there sum of sales were for that day and give the value to currentMax,
+     if I find that the currentMax is bigger then the typeSum which is first initialized to 0 in the main, I give typeSum the value that currentMax holds, and bestType
+     the index of the type that his sales were bigger then the previous typeSum and reset currentMax value to 0 for the next type,
+     if the currentMax isn't bigger than typeSum I reset him and check for the next type without changing typeSum*/
     for (int i = 0; i < NUM_OF_TYPES; i++) {
         for (int j = 0; j < NUM_OF_BRANDS; j++) {
             currentMax += cube[day][j][i];
