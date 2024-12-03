@@ -299,6 +299,7 @@ void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day
         }
     }
 }
+//
 void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
     for (int i = 0; i < NUM_OF_BRANDS; i++) {
         int totalSales = 0;
