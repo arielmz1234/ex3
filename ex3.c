@@ -278,7 +278,7 @@ void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int da
 /*getBestSoldType gets the arguments cube, day so it will know in which day to check,
  a pointer to bestType, so I can use the index of the highest grossing type of that day in main,
  and typeSum so, I can use the sum of all the highest grossing type sales in main*/
-void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int *bestType, int *typeSum){
+void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int *bestType, int *typeSum) {
     //currentMax will help find the highest sum of sales from all the types, initialized at 0
     int currentMax = 0;
     /*In this 2 for loops we are checking for each type what there sum of sales were for that day and give the value to currentMax,
