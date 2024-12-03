@@ -1,3 +1,0 @@
-E:/ariel/projects/ex3/cmake-build-debug/CMakeFiles/ex3.dir
-E:/ariel/projects/ex3/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/ariel/projects/ex3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
