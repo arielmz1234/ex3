@@ -1,6 +1,6 @@
 /******************
 Name: Ariel Mizrahi
-ID: 
+ID:
 Assignment: ex3
 *******************/
 
@@ -24,14 +24,14 @@ char types[NUM_OF_TYPES][TYPES_NAMES] = {"SUV", "Sedan", "Coupe", "GT"};
 //comments about each function will in each implementation of the functions
 void printMenu();
 int addData(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getTotalSalesSum(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day);
-void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day);
+void getTotalSalesSum(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes);
+void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day,int daysInYear, int numOfBrands, int NumOfTypes);
+void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day, int numOfBrands, int NumOfTypes);
 int main() {
     int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES];
     //dayCounter will hold the latest day that is available for getting data from the user
@@ -139,9 +139,9 @@ int main() {
                 }
                 //Here we call all the functions that print us the wanted information for the day the user chose (checkDay)
                 printf("In day number %d:\n", checkDay+1);
-                getTotalSalesSum(cube,checkDay);
-                getBestSoldBrand(cube,checkDay);
-                getBestSoldType(cube,checkDay);
+                getTotalSalesSum(cube,checkDay,NUM_OF_BRANDS,NUM_OF_TYPES);
+                getBestSoldBrand(cube,checkDay,NUM_OF_BRANDS,NUM_OF_TYPES);
+                getBestSoldType(cube,checkDay,NUM_OF_BRANDS,NUM_OF_TYPES);
                 printf("\n");
                 break;
             }
@@ -149,20 +149,20 @@ int main() {
                 /*Here we print the lines as requested and then call the function printCube
                  with the arguments cube and the dayCounter so the function will now what to print and until what day*/
                 printf("*****************************************\n\n");
-                printCube(cube,dayCounter);
+                printCube(cube,dayCounter,NUM_OF_BRANDS,NUM_OF_TYPES);
                 printf("\n\n*****************************************\n");
                 break;
             }
             case insights: {
                 //Here we call all the functions that print us the wanted information for all the days that got inputs
-                getBestSoldBrandOverall(cube,dayCounter);
-                getBestSoldTypeOverall(cube,dayCounter);
-                getBestSoldDayOverall(cube,dayCounter);
+                getBestSoldBrandOverall(cube,dayCounter,NUM_OF_BRANDS,NUM_OF_TYPES);
+                getBestSoldTypeOverall(cube,dayCounter,NUM_OF_BRANDS,NUM_OF_TYPES);
+                getBestSoldDayOverall(cube,dayCounter,DAYS_IN_YEAR,NUM_OF_BRANDS,NUM_OF_TYPES);
                 break;
             }
             case deltas: {
                 //We call the getAdm function with the arguments cube and dayCounter so the function will now what to check and until which day
-                getAdm(cube,dayCounter);
+                getAdm(cube,dayCounter,NUM_OF_BRANDS,NUM_OF_TYPES);
                 break;
             }
             default:
@@ -212,19 +212,19 @@ void printMenu(){
            "7.exit\n");
 }
 //getTotalSalesSum is used to print the total sales for a given day (the day argument)
-void getTotalSalesSum(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void getTotalSalesSum(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int numOfTypes) {
     //salesSum will hold the sum of all the sales of the day
     int salesSum = 0;
     //There are 2 running nested for loops to run over all the types of each car brands of the chosen day and to sum their sales
-    for (int i = 0; i < NUM_OF_BRANDS; i++) {
-        for (int j = 0; j < NUM_OF_TYPES; j++) {
+    for (int i = 0; i < numOfBrands; i++) {
+        for (int j = 0; j < numOfTypes; j++) {
             salesSum += cube[day][i][j];
         }
     }
     printf("The sales total was %d\n", salesSum);
 }
 //getBestSoldBrand is used to print the total sales of the highest grossing brand for a given day (the day argument)
-void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int numOfTypes) {
     //currentMax will help find the highest sum of sales from all the brands, initialized at 0
     int currentMax = 0;
     //bestBrand will hold the index of the highest grossing brand of the given day, initialized at -1
@@ -235,8 +235,8 @@ void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int da
      if I find that the currentMax is bigger then the brandSum which is first initialized to 0, I give brandSum the value that currentMax holds, and bestBrand
      the index of the brand that his sales were bigger then the previous brandSum and reset currentMax value to 0 for the next brand,
      if the currentMax isn't bigger than brandSum I reset him and check for the next brand without changing brandSum*/
-    for (int i = 0; i < NUM_OF_BRANDS; i++) {
-        for (int j = 0; j < NUM_OF_TYPES; j++) {
+    for (int i = 0; i < numOfBrands; i++) {
+        for (int j = 0; j < numOfTypes; j++) {
             currentMax += cube[day][i][j];
         }
         if (currentMax > brandSum) {
@@ -251,7 +251,7 @@ void getBestSoldBrand(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int da
     printf("The best sold brand with %d sales was %s\n",brandSum, brands[bestBrand]);
 }
 //getBestSoldType is used to print the total sales of the highest grossing type for a given day (the day argument)
-void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int numOfTypes) {
     //currentMax will help find the highest sum of sales from all the types, initialized at 0
     int currentMax = 0;
     //bestType will hold the index of the highest grossing type of the given day, initialized at -1
@@ -262,8 +262,8 @@ void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day
      if I find that the currentMax is bigger then the typeSum which is first initialized to 0, I give typeSum the value that currentMax holds, and bestType
      the index of the type that his sales were bigger then the previous typeSum and reset currentMax value to 0 for the next type,
      if the currentMax isn't bigger than typeSum I reset him and check for the next type without changing typeSum*/
-    for (int i = 0; i < NUM_OF_TYPES; i++) {
-        for (int j = 0; j < NUM_OF_BRANDS; j++) {
+    for (int i = 0; i < numOfTypes; i++) {
+        for (int j = 0; j < numOfBrands; j++) {
             currentMax += cube[day][j][i];
         }
         if (currentMax > typeSum) {
@@ -278,15 +278,15 @@ void getBestSoldType(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day
     printf("The best sold type with %d sales was %s\n",typeSum, types[bestType]);
 }
 //printCube is used to print all the information for every day that got inputs
-void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int numOfTypes) {
     /*The first for loop runs through the brands and every time get the total sales of that brand,
      the second  and third nested loops will run in the first loop and get the total sales of that day,
      we want to check for each brand if he got any sales at all, if not we only print Sales for BrandName
      and move to the next brand as requested*/
-    for (int i = 0; i < NUM_OF_BRANDS; i++) {
+    for (int i = 0; i < numOfBrands; i++) {
         //we don't want the totalSales to stack with other brand so each time we check another brand we reset totalSales
         int totalSales = 0;
-        for (int j = 0; j < NUM_OF_TYPES; j++) {
+        for (int j = 0; j < numOfTypes; j++) {
             for (int k = 0; k < day; k++) {
                 totalSales += cube[k][i][j];
             }
@@ -305,19 +305,23 @@ void printCube(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
     }
 }
 //getBestSoldBrandOverall is used to print the total sales of the highest grossing brand until the last day that got values (day)
-void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day){
+void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int NumOfTypes){
     //brandSum will hold the sum of the sales of each brand, changes everytime other brand sales are higher than him, initialed at 0
     int brandSum = 0;
     //bestBrand will hold the index of the highest grossing brand until the last day that got values, initialed at -1
     int bestBrand = -1;
     //totalBrandSum will hold the sum of the sales of the highest grossing brand until the last day that got values, initialed at 0
     int totalBrandSum = 0;
-    //totalSumArr is an array the size of NUM_OF_BRANDS that will hold the sum of each brand sales overall until the last day that got values, initialized at 0
-    int totalSumArr[NUM_OF_BRANDS]= {0};
+    //totalSumArr is an array the size of NUM_OF_BRANDS that will hold the sum of each brand sales overall until the last day that got values
+    int totalSumArr[numOfBrands];
+    //initialize the arr to 0
+    for (int i = 0; i <numOfBrands; i++) {
+        totalSumArr[i] = 0;
+    }
     //In this nested loops we give the total sales for each brand to each index of totalSumArr
-    for (int i = 0; i < NUM_OF_BRANDS; i++) {
+    for (int i = 0; i < numOfBrands; i++) {
         for (int j = 0; j < day; j++) {
-            for (int k = 0; k < NUM_OF_TYPES; k++) {
+            for (int k = 0; k < NumOfTypes; k++) {
                 totalSumArr[i] += cube[j][i][k];
             }
         }
@@ -325,7 +329,7 @@ void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES]
     /*Here we want to check what is the biggest value in the array(what is the highest grossing brand),
      every time we check if the array in the index i is bigger than the brandSum that is initialized at 0,
      if it is bigger we give his index to bestBrand and his value to brandSum*/
-    for (int i = 0; i < NUM_OF_BRANDS; i++) {
+    for (int i = 0; i < numOfBrands; i++) {
         if (totalSumArr[i] > brandSum) {
             bestBrand = i;
             brandSum = totalSumArr[i];
@@ -337,19 +341,23 @@ void getBestSoldBrandOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES]
     printf("The best-selling brand overall is %s: %d$ \n",brands[bestBrand],totalBrandSum);
 }
 //getBestSoldTypeOverall is used to print the total sales of the highest grossing type until the last day that got values (day)
-void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day, int numOfBrands, int numOfTypes) {
     //typeSum will hold the sum of the sales of each type, changes everytime other type sales are higher than him, initialed at 0
     int typeSum = 0;
     //bestType will hold the index of the highest grossing type until the last day that got values, initialed at -1
     int bestType = -1;
     //totalTypeSum will hold the sum of the sales of the highest grossing type until the last day that got values, initialed at 0
     int totalTypeSum = 0;
-    //totalSumArr is an array the size of NUM_OF_TYPES that will hold the sum of each type sales overall until the last day that got values, initialized at 0
-    int totalSumArr[NUM_OF_TYPES]= {0};
+    //totalSumArr is an array the size of NUM_OF_TYPES that will hold the sum of each type sales overall until the last day that got values
+    int totalSumArr[numOfTypes];
+    //initialize the arr to 0
+    for (int i = 0; i <numOfTypes; i++) {
+        totalSumArr[i] = 0;
+    }
     //In this nested loops we give the total sales for each brand to each index of totalSumArr
-    for (int i = 0; i < NUM_OF_TYPES; i++) {
+    for (int i = 0; i < numOfTypes; i++) {
         for (int j = 0; j < day; j++) {
-            for (int k = 0; k < NUM_OF_BRANDS; k++) {
+            for (int k = 0; k < numOfBrands; k++) {
                 totalSumArr[i] += cube[j][k][i];
             }
         }
@@ -357,7 +365,7 @@ void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
       /*Here we want to check what is the biggest value in the array(what is the highest grossing type),
      every time we check if the array in the index i is bigger than the typeSum that is initialized at 0,
      if it is bigger we give his index to bestType and his value to typeSum*/
-    for (int i = 0; i < NUM_OF_TYPES; i++) {
+    for (int i = 0; i < numOfTypes; i++) {
         if (totalSumArr[i] > typeSum) {
             bestType = i;
             typeSum = totalSumArr[i];
@@ -369,20 +377,24 @@ void getBestSoldTypeOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],
     printf("The best-selling type of car is %s: %d$ \n",types[bestType],totalTypeSum);
 }
 //getBestSoldDayOverall is used to print the total sales of the highest grossing day until the last day that got values (day)
-void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day) {
+void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],int day,int daysInYear, int numOfBrands, int numOfTypes) {
     //daySum will hold the sum of the sales of each day, changes everytime other day sales are higher than him, initialed at 0
     int daySum = 0;
     //bestDay will hold the highest grossing day until the last day that got values, initialed at -1
     int bestDay = -1;
     //totalDaySum will hold the sum of the sales of the highest grossing day until the last day that got values, initialed at 0
     int totalDaySum = 0;
-    //totalSumArr is an array the size of DAYS_IN_YEAR that will hold the sum of each day sales overall until the last day that got values, initialized at 0
-    int totalSumArr[DAYS_IN_YEAR]= {0};
+    //totalSumArr is an array the size of DAYS_IN_YEAR that will hold the sum of each day sales overall until the last day that got values
+    int totalSumArr[daysInYear];
+    //initialize the arr to 0
+    for (int i = 0; i < daysInYear; i++) {
+        totalSumArr[i] = 0;
+    }
     /*In this nested loops we give the total sales for each day to each index of
     totalSumArr(here we don't necessarily give values to each day, only until the last day that got values)*/
     for (int i = 0; i < day; i++) {
-        for (int j = 0; j < NUM_OF_BRANDS; j++) {
-            for (int k = 0; k < NUM_OF_TYPES; k++) {
+        for (int j = 0; j < numOfBrands; j++) {
+            for (int k = 0; k < numOfTypes; k++) {
                 totalSumArr[i] += cube[i][j][k];
             }
         }
@@ -390,7 +402,7 @@ void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],i
     /*Here we want to check what is the biggest value in the array(what is the highest grossing day),
     every time we check if the array in the index i is bigger than the daySum that is initialized at 0,
     if it is bigger we give his index to bestDay and his value to daySum*/
-    for (int i = 0; i < NUM_OF_TYPES; i++) {
+    for (int i = 0; i < numOfTypes; i++) {
         if (totalSumArr[i] > daySum) {
             bestDay = i;
             daySum = totalSumArr[i];
@@ -402,11 +414,11 @@ void getBestSoldDayOverall(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES],i
     printf("The most profitable day was day number %d: %d$ \n",bestDay+1,totalDaySum);
 }
 //getAdm is used to get the average delta metrics for each brand until the last day that got values (day)
-void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day){
+void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day, int numOfBrands, int numOfTypes){
     //First we want to check if day is bigger than 1
     if (day>1) {
         //This loop goes through every brand and gets his adm and prints it as requested
-        for (int i = 0; i < NUM_OF_BRANDS; i++) {
+        for (int i = 0; i < numOfBrands; i++) {
             //For every brand I want the delta to be initialized at 0
             float delta = 0;
             /*In this loop I go through every day starting day 1(second day)
@@ -414,7 +426,7 @@ void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day){
             for (int j = 1; j < day; j++) {
                 int curSales = 0;
                 int prevSales = 0;
-                for (int k = 0; k < NUM_OF_TYPES; k++) {
+                for (int k = 0; k < numOfTypes; k++) {
                     curSales += cube[j][i][k];
                     prevSales += cube[j-1][i][k];
                 }
@@ -428,7 +440,7 @@ void getAdm(int cube[DAYS_IN_YEAR][NUM_OF_BRANDS][NUM_OF_TYPES], int day){
         }
     //If day isn't bigger than 1 that means there is 1 or fewer days that got values and I want to print 0 for every brand adm
     else {
-        for (int i = 0; i < NUM_OF_BRANDS; i++) {
+        for (int i = 0; i < numOfBrands; i++) {
             printf("Brand: %s, Average Delta: 0.000000\n",brands[i]);
         }
     }
